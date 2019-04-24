@@ -17,15 +17,21 @@ router.get('/list', function(req, res, next) {
 	});
 });
 
-router.get('/login', function(req, res, next) {
+router.post('/login', function(req, res) {
 	var db = req.con;
 	var data = req.body;
+	var passwordHash = require('password-hash');
 	var hashedPassword = passwordHash.generate(data.password);
-	db.query("SELECT * FROM user where 'email'='"+data.email+"' and 'password'='"+hashedPassword+"'",function(err,rows){
+	// db.query("SELECT * FROM user where email='"+data.email+"' and password='"+hashedPassword+"'",function(err,rows){
+			db.query("SELECT * FROM user where email='"+data.email+"' and password='"+hashedPassword+"'",function(err,rows){
+
 		if(err)
 			res.json({ success: false, message:"Some error occured. Unable to login"});
 		var data = rows;
-		res.json({ success: true, message:"User logged in successfully", user: data});
+		if(data.length>0)
+			res.json({ success: true, message:"User logged in successfully", user: data});
+		else
+			res.json({ success: false, message:"Wrong credentials. Unable to login", email: req.body.email, pass: hashedPassword});
 	});
 });
 
@@ -33,11 +39,13 @@ router.get('/login', function(req, res, next) {
 router.post('/signup', function(req, res) {
 	var db = req.con;
 	var data = req.body;
+	var passwordHash = require('password-hash');
 	var hashedPassword = passwordHash.generate(data.password);
+	res.json({ user: data, pass: hashedPassword});
 	var query="INSERT INTO user (`name`, `email`, `password`) VALUES ('" + data.name + "', '" + data.email + "', '" + hashedPassword + "');";
 	db.query(query,data, function (error, results, fields) {
 		// if (error) throw error;
-		if(err)
+		if(error)
 			res.json({ success: false, message:"Some error occured. Unable to signup"});
 		res.json({ success: true, message:"User created successfully", user: data});
 	});
