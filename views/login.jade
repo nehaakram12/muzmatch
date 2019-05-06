@@ -1,0 +1,26 @@
+extends layout
+
+block content
+        .modal-box(flex='60')
+          div(style='text-align: center; color: red')
+            |         #{message}
+          h3.font-bold(style='color: #C70039') Dashboard Login!
+          form.ng-invalid.ng-invalid-required.ng-dirty.ng-valid-email(novalidate='', action='callLoginApi', method='post')
+            // 
+            .field.has-error.form-group.error(bs-has-error='', flex='50')
+              div
+                input.input.ng-invalid.ng-dirty.ng-empty.ng-valid-email.ng-invalid-required.ng-touched.form-control.has-error(type='email', placeholder='Email', name='email', ng-model='credentials.username', required='', aria-invalid='true', style='')
+              div
+                input.input.form-control.has-error(type='password', placeholder='Password', name='password', ng-required='')
+             
+
+            div(style='text-align: center; color: grey; font-size: 16px; margin:10px')
+            ul.btn-list
+              li
+                button.btn.btn-lg.btn-violet(type='submit', ng-disabled='form.$invalid')
+                  // <input type = "submit" value = "LOGIN" class="btn btn-lg btn-violet"/>
+                  span LOGIN
+              li(style='color:#7b8ca8!important') Do not have an account?
+              li
+                a.btn.btn-lg(type='button', href='/signup', style='width:85%')
+                  span SIGN UP

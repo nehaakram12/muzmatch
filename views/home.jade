@@ -1,0 +1,24 @@
+extends layout-loggedin
+
+block content
+  div(layout='row', style='margin-bottom: 100px',flex='100')
+    #extra1(flex='')
+    div(flex='80', layout='column')
+
+      #featured-stories(layout='column', style='border-top: 8px solid pink;; margin:20px 0px')
+        a(style='font-size:calc(20px + 1.5vw); padding: 10px 0px 0px 8px; font-weight: bold', href='')  FEATURED STORIES
+        span(layout='column', style='max-height:inherit')
+          md-grid-list(md-cols='9', md-cols-sm='8', md-cols-xs='8', md-row-height='16:15', md-gutter='10px')
+            md-grid-tile(ng-repeat='item in #{users}', style='overflow:hidden', md-colspan='3', md-colspan-sm='4', md-colspan-xs='4', md-rowspan-gt-lg='3', md-rowspan='3', md-rowspan-sm='4', md-rowspan-xs='6')
+              md-card
+                .check
+                  img.md-card-image.image(ng-src='[[imgurl]]{{item.thumbnail}}', alt='jen')
+                div(style='background-color:pink; padding:3px')
+                .text-box
+                  .box-title
+                    span Selena Gomez released her new single and its very catchy
+                  #Region-Deadline.cardsub(layout='row')
+                    span(style='padding-right:10px', hide-xs='', show='') Author
+                    span(style='padding-right:10px', hide-xs='')  6 hours ago 
+                    span(style='padding-right:10px', hide-xs='')  Comments
+     #extra2(flex='')

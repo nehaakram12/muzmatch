@@ -3,6 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var request = require('request')
+
+
 // var passwordHash = require('password-hash');
 
 
@@ -41,6 +45,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(session({secret: 'mySecret', resave: false, saveUninitialized: false}));
+
+
 
 
 // Make our db accessible to our router
@@ -66,6 +73,18 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use(function (req, res, next) {
+  if (!req.session.authStatus || 'loggedOut' === req.session.authStatus) {
+    req.session.authStatus = 'loggingIn';
+
+    // cause Express to issue 401 status so browser asks for authentication
+    req.user = false;
+    req.remoteUser = false;
+    if (req.headers && req.headers.authorization) { delete req.headers.authorization; }
+  }
+  next();
 });
 
 module.exports = app;

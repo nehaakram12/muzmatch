@@ -1,0 +1,39 @@
+extends layout-loggedin
+
+block content
+      div(layout='row', style='margin-bottom: 100px')
+        #extra1(flex='')
+        div(flex='80', layout='column')
+          div(style='padding: 0px; color: black; max-height: inherit;', flex='')
+            div(style='padding: 0px 5px;margin-top: 0px;position:relative;height: 500px;overflow: hidden;')
+              img(ng-src="[[imgurl]]#{user[0].cover}", style='width:100%;height:75%')
+              div(style='position:absolute;top: 44%;left:38%;')
+                img(ng-src="[[imgurl]]#{user[0].thumbnail}", style='width: 234px;border-radius: 50%;')
+                .iphoneheading(style='color:white;letter-spacing: 2px;margin-top:-12px;font-weight:bold;text-align: center')
+                  | #{user[0].name}
+          div(flex='', layout='row', style='padding: 50px 80px 0px 80px ')
+            .iphoneheading(layout='column', flex='35')
+              a.brandbutton(href='/updateProfile') Edit Profile 
+              a.brandbutton(href='/mycampaigns', style='margin-top: 10px') Change Password 
+            div(flex='')
+            .iphoneheading(flex='50', style='font-size: 18px;padding-left: 30px', layout='column')
+              div
+                span(style='font-weight: bold') Full Name: 
+                span #{user[0].name}
+              div
+                span(style='font-weight: bold') Email:
+                span #{user[0].email}
+              div
+                span(style='font-weight: bold') Bio:
+                span #{user[0].bio}
+              div
+                span(style='font-weight: bold') Profession:
+                span #{user[0].profession}
+              div
+                span(style='font-weight: bold') Religion:
+                span #{user[0].religion}
+              div
+                span(style='font-weight: bold') Birth Date:
+                span #{user[0].dob}
+        #extra2(flex='')
+      

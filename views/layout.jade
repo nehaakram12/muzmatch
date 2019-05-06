@@ -1,12 +1,431 @@
 doctype html
 html
-	head
-		title= title
-		link(rel='stylesheet', href='/stylesheets/style.css')
-		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
-		link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css')
-		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
-		script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-		script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js')
-	body
-		block content
+  head
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', type='text/css', href='https://fonts.googleapis.com/css?family=Paytone+One|Titan+One|Wendy+One')
+    // AngularJS Material CSS using GitCDN to load directly from `bower-material/master`
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto+Slab')
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    // AngularJS Material Dependencies
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-aria.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-messages.min.js')
+    // AngularJS Material Javascript using GitCDN to load directly from `bower-material/master`
+    script(src='https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.1/angular-material-icons.min.js')
+  body(ng-app='myApp', ng-controller='mainController', style='position:relative;')
+    .bodytag(layout='column')
+      #header(layout='row', layout-wrap='', style='position: relative;')
+        #logo(flex='40')
+          a(href='/', style='padding: 20px 20px; ')
+            img#logo_img_small(title='Flikfeed', ng-src="[[imgurl+'muzmatch.png']]", style='max-height: 75px; padding: 0px;margin-top:13px')
+        #logo-full(flex='20')
+          a(href='/', style='padding: 20px 20px; ')
+            img#logo_img_small(title='Flikfeed', ng-src="[[imgurl+'muzmatch-full-white.png']]", style='max-height: 75px; padding: 0px;margin-top:13px')
+        #extra2(flex='')
+        #menu-buttons(flex='25', layout='row', hide='', show-gt-sm='', style='padding:38px 0px 0px 0px;')
+          div(id='BrowseOp button')
+            a.custombutton(href='/login')
+              | LOGIN
+          #PostOp-button
+            a.custombutton(href='/signup')
+              | JOIN NOW
+        #menu-icon(style='padding:20px 0px 0px 0px', hide-gt-sm='')
+          md-button
+            i.material-icons.menu-icon(style='color: black;font-size:28px') menu
+      div(layout='row')
+        div(flex='')
+        #{message}
+        block content
+        
+        div(flex='')
+      #footer(style='')
+        #footer-wrappper(layout-wrap='', layout='row')
+          #extra-footer1(flex='')
+          div(layout='column', layout-lg='row', layout-md='row', layout-wrap='', flex-gt-md='90', flex-xs='100')
+            #sidebar-1(flex='30', layout='row', style='padding:10px; font-weight:200;')
+              div(layout='column', flex='70')
+                img(src="[[imgurl+'muzmatch-full-white.png']]", width='200')
+                p(style='color: #FFF; font-weight:100; font-size:18px;') Join over a MILLION single Muslims finding their perfect partner in the halal, free, and fun way. Chat and meet great single Muslims nearby for FREE! 
+                p(style='font-weight:100; font-size:18px') ©2019 Muzmatch Inc
+              #extraitem(flex='')
+            #sidebar-2(flex='', layout='column', style='padding:0px 10px 0px 10px;')
+              h4 Platform
+              a.footer-item(href='/about')
+                | About us
+              a.footer-item(href='/partners')
+                | Partners
+              a.footer-item(href='/faqs')
+                | FAQs
+              a.footer-item(href='/join')
+                | Join
+            #sidebar-3(flex='', layout='column', style='padding:0px 10px 0px 10px')
+              div
+                h4 Resources
+              a.footer-item(href='/help')
+                | Help
+              a.footer-item(href='/support')
+                | Support
+              a.footer-item(href='/terms')
+                | Terms of use
+              a.footer-item(href='/privacy')
+                | Privacy
+            div(style='padding:1.5em', show='', hide-gt-sm='')
+          #extra-footer2(flex='')
+    script.
+      var app = angular.module("myApp", ['ngMaterial','ngRoute','ngMessages']);
+      app.config(function ($interpolateProvider) {
+      $interpolateProvider.startSymbol('[[');
+      $interpolateProvider.endSymbol(']]');
+      })
+      app.controller('mainController',function($scope,$routeParams)
+      {
+      $scope.imgurl="images/";
+      });
+    style.
+      .mybutton {
+      padding: 0 6px 0 6px;
+      margin: 6px 8px 3px 8px;
+      min-width: 88px;
+      border-radius: 3px;
+      font-size: 20px;
+      font-weight:200;
+      color: #D3D3D0;
+      text-align: left;
+      text-transform: none;
+      text-decoration:none;
+      outline: none;
+      }
+      .label {
+      color: #c70039;
+      text-align: left;
+      padding: 0px;
+      margin: 8px 0px 0px;
+      }
+      #footer{
+      background: linear-gradient(to right, #702050 , #d42052);
+      /*background-color:#C70039;*/
+      color: white;
+      font-family:calibri;
+      padding: 0px 0px 60px 0px;
+      width: 100%
+      }
+      h4 {
+      display: block;
+      font-size: 20px;
+      margin-top: 1.33em;
+      margin-bottom: 0em;
+      margin-left: 0;
+      margin-right: 0;
+      font-weight: bold;
+      color:white;
+      padding: 0px 0px 10px 0px;
+      }
+      #header{
+      /*position: fixed;
+      top:0;
+      left:0;*/
+      width:100%;
+      background-color: #C70039;
+      height:100px;
+      opacity:1.00;
+      z-index: +1;
+      margin-bottom: 10px;
+      }
+      .bodytag
+      {
+      font-family: calibri; color: grey; font-size:20px;max-height: inherit;display: block;
+      }
+      @media (max-width:600px) {
+      .bodytag {font-size: 15px;}
+      }
+      @media (max-width:360px) {
+      .bodytag {font-size: 12px;}
+      }
+      .footer-item {
+      font-size: 18px;
+      font-weight:200;
+      text-align: left;
+      text-transform: none;
+      text-decoration:none;
+      outline: none;
+      color: #ffffff;
+      padding: 3px;
+      -webkit-transition: all 0.1s ease-in;
+      text-decoration: none;
+      cursor: pointer;
+      margin: 2px;
+      }
+      .footer-item:hover{
+      /*color: #C70039;
+      background-color: #ffffff;*/
+      font-weight: 400;
+      font-family: 'Rubik Light', Arial, sans-serif;
+      }
+      body{
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      min-width: 100%;
+      /*background-image: url('https://www.tribegroup.co/hs-fs/hubfs/AAWebsiteAssets/HOME/1920x963%20Website%20Header%20Image-Home-1.jpg?t=1511226695977&width=1920&name=1920x963%20Website%20Header%20Image-Home-1.jpg');*/
+      background-image: url('http://Flikfeed.com/resources/views/img/colortheory4.jpg');
+      background-repeat: repeat;
+      /*background-size: cover;*/
+      height: auto;
+      }
+      html {
+      height: 100%;
+      width: 100%;
+      }
+      .iphoneheading {
+      font-size: 32px;
+      /*color: #191919;*/
+      color:white;
+      line-height: 1.70em;
+      letter-spacing: 4.3px;
+      margin-bottom: 10px;
+      word-wrap: initial;
+      font-weight: 200;
+      }
+      .brandbutton {
+      border-radius: 50px;
+      border: 1px solid #ffffff;
+      font-family: 'Rubik', Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 1.5px;
+      font-weight: normal;
+      text-align: center;
+      -webkit-transition: all 0.2s ease-in;
+      text-decoration: none;
+      cursor: pointer;
+      /*                margin: 20px 8px 6px 8px;*/
+      /*background-color: #016759;*/
+      /*background: linear-gradient(to right, #b749ba , #e72a8f);*/
+      color: #C70039;
+      background-color: #ffffff;
+      }
+      .brandbutton:hover{
+      /* color: #ffffff;
+      background-color: transparent;
+      font-family: 'Rubik Light', Arial, sans-serif;*/
+      padding: 0px 35px;
+      font-size: 16px;
+      font-weight: bold;
+      }
+      .custombutton {
+      border-radius: 50px;
+      border: 1px solid #ffffff;
+      font-family: 'Rubik', Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      padding: 10px 30px;
+      font-weight: normal;
+      text-align: center;
+      -webkit-transition: all 0.2s ease-in;
+      text-decoration: none;
+      cursor: pointer;
+      margin: 20px 8px 6px 8px;
+      color: #C70039;
+      background-color: #ffffff;
+      }
+      .custombutton:hover{
+      /* color: #ffffff;
+      background-color: transparent;
+      font-family: 'Rubik Light', Arial, sans-serif;*/
+      padding: 12px 30px;
+      font-size: 14px;
+      font-weight: bold;
+      }
+      .formclass{
+      margin-left:auto;
+      margin-right:auto;
+      margin-top: 3%;
+      margin-bottom: auto;
+      max-width: 400px;
+      min-height: 400px;
+      padding: 20px 20px 20px 20px;
+      font: 16px;
+      color: white;
+      background-color: #f5f7fd;
+      font-family: calibri;
+      }
+      a{
+      text-decoration: none;
+      color: lightblue;
+      transition: color .3s ease-in-out,border .3s ease-in-out,background .3s ease-in-out,opacity .3s ease-in-out;
+      cursor: pointer;
+      }
+      .inputbox{
+      transition: border-color .3s ease-in-out;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+      border: 1px solid #ccd3e7;
+      padding: 11px 24px;
+      border-radius: 5px;
+      outline: 0;
+      height: 54px;
+      font-size: 16px;
+      width: 100%;
+      color: #39475a;
+      margin-bottom: 10px;
+      }
+      .modal-box {
+      background: #f5f7fd;
+      max-width: 450px;
+      min-width: 400px;
+      padding: 62px 45px 37px;
+      margin: 0 auto;
+      border-radius: 5px;
+      box-shadow: 2px 0 20px rgba(16,22,31,.3);
+      text-align: center;
+      color: #f5f7fd;
+      line-height: 1.5;
+      position: relative;
+      margin-bottom: 20px;
+      }
+      .modal-box h3 {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      text-transform: capitalize;
+      }
+      .modal-box .modalform {
+      margin: 0;
+      padding: 0;
+      border-style: none;
+      display: block;
+      }
+      .text-center {
+      text-align: center;
+      }
+      .ng-hide {
+      display: none!important;
+      }
+      .wrapper {
+      padding: 15px;
+      }
+      .font-bold {
+      font-weight: 600;
+      }
+      .text-red {
+      color: #DA2570;
+      }
+      .modal-box .field {
+      margin: auto;
+      margin-bottom: 10px;
+      }
+      .modal-box input {
+      transition: border-color .3s ease-in-out;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+      border: 1px solid #ccd3e7;
+      padding: 11px 24px;
+      border-radius: 5px;
+      outline: 0;
+      height: 54px;
+      font-size: 16px;
+      width: 100%;
+      color: #39475a;
+      line-height: normal;
+      font: inherit;
+      vertical-align: baseline;
+      margin-bottom: 5px;
+      }
+      .help-block {
+      margin-top: -15px;
+      margin-left: 5px;
+      text-align: left;
+      font-size: 15px;
+      }
+      .modal-box .btn-list {
+      padding-bottom: 4px;
+      max-width: 360px;
+      margin: 0 auto;
+      list-style: none;
+      }
+      .btn {
+      transition: color .3s ease-in-out,border .3s ease-in-out,background .3s ease-in-out,opacity .3s ease-in-out;
+      padding: 10px 27px;
+      font: 700 13px/18px gt_walsheim,"Helvetica Neue",Arial,Helvetica,sans-serif;
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(57,71,90,.13);
+      /*background: #fff;
+      color: #9738f5;*/
+      color: #C70039;
+      background-color: #ffffff;
+      border: 1px solid #C70039;
+      cursor: pointer;
+      border-radius: 30px;
+      letter-spacing: 1px;
+      min-width: 130px;
+      vertical-align: middle;
+      text-transform: uppercase;
+      text-align: center;
+      }
+      .btn:hover{
+      /* background: #15baaa;
+      color: #fff;*/
+      background-color: #C70039;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+      }
+      .modal-box ul{
+      padding-left: 0px;
+      }
+      .btn-list li {
+      margin-bottom: 19px;
+      display: list-item;
+      text-align: -webkit-match-parent;
+      }
+      .btn-list .btn {
+      padding: 14px 28px;
+      width: 100%;
+      }
+      .btn-violet {
+      background: #C70039;
+      color: #fff;
+      }
+      .btn-violet:hover{
+      background: #ffffff;
+      color: #C70039;
+      border: 1px solid #C70039;
+      }
+      .btn-lg {
+      padding: 19px 51px;
+      min-width: 220px;
+      font-size: 14px;
+      }
+      .forgot-password {
+      float: none!important;
+      display: block;
+      width: 100%!important;
+      text-align: center;
+      }
+      .forgot-password a {
+      font-size: 14px;
+      color: #7b8ca8!important;
+      display: block;
+      }
+      .foo-nav {
+      font-size: 16px;
+      }
+      @media (max-width: 1049px){
+      .foo-nav {
+      padding-right: 10px;
+      /*          max-width: 33.33%;*/
+      }
+      .modal-box .btn-list .btn {
+      padding: 14px 28px;
+      }
+      .modal-box a {
+      color: #9738f5;
+      }
+      .btn-lg {
+      padding: 19px 51px;
+      min-width: 220px;
+      font-size: 14px;
+      }
