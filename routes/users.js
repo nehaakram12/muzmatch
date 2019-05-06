@@ -88,29 +88,34 @@ router.put('/updatepic',function(req, res){
     });
 });
 
-router.put('/updatepassword',function(req, res){
+
+router.post('/updatepassword',function(req, res){
     var db = req.con;
     var data = req.body;
-
-    db.query("SELECT * FROM user where userid='"+data.userid+"' and password='"+data.oldpassword+"'",function(error,rows){
+    var query="SELECT * FROM user where userid='"+data.userId+"' and password='"+data.oldpassword+"'";
+    db.query(query,function(error,rows){
     if(error)
-    	res.json({ code: 420, success: false, message:"Some error occured. Unable to update password"});
+      res.json({ code: 420, success: false, message:"Some error occured. Unable to update password"});
     else{
-    	var data = rows;
-    	if(data.length>0)
-    	{
-    		var query="UPDATE user SET password = '" + data.newpassword + "' WHERE userId = '" + data.userId + "';";
-    		db.query(query,data, function (error, results, fields) {
-    		        // if (error) throw error;
-    		        if(error)
-    		            res.json({ code: 420, success: false, message:"Some error occured. Unable to update password"});
-    		        else{
-    		        	res.render('profile', { code: 101, success: true, message:"Password updated successfully", user: data});
-    		        }
-    		});
-    	}
-    	else
-    		res.render('profile', { code: 420, success: false, message:"Wrong credentials. Try again", user: data});
+      var data = rows;
+      if(data.length>0)
+      {
+        var query="UPDATE user SET password = '" + data.newpassword + "' WHERE userId = '" + data.userId + "';";
+        db.query(query,data, function (error, results, fields) {
+                // if (error) throw error;
+                if(error)
+                    res.json({ code: 404, success: false, message:"Some error occured. Unable to update password"});
+                else{
+                	res.json({ code: 101, success: true, message:"Password updated successfully", user: data});
+                  // res.render('profile', { code: 101, success: true, message:"Password updated successfully", user: data});
+                }
+        });
+      }
+      else
+      {
+      	res.json({ code: 420, success: false, message:"Wrong credentials. Try again", user: data});
+        // res.render('profile', { code: 420, success: false, message:"Wrong credentials. Try again", user: data});
+      }
     }
     });
 });

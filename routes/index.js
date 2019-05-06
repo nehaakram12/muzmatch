@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/login', function(req, res, next) {
 	if(req.session.authStatus == 'loggedIn'){
-		res.redirect('/home');
+		res.redirect('/profile');
 	}
 	var message = req.session.message;
 	res.render('login', {message: message});
@@ -67,9 +67,10 @@ router.post('/callLoginApi', function(req, res){
 
 router.get('/signup', function(req, res, next) {
 	if(req.session.authStatus == 'loggedIn'){
-		res.redirect('/home');
+		res.redirect('/profile');
 	}
-  	res.render('signup', { title: 'Signup' });
+    req.session.message='User logged out successfully';
+  	res.render('signup', { title: 'Signup' , message: req.session.message});
 });
 
 router.post('/callSignupApi', function(req, res){
@@ -82,12 +83,14 @@ router.post('/callSignupApi', function(req, res){
     }
     else{
     	// res.json({ code: response, success: true, message:"User logged in successfully", user: body.user});
+      // res.json({ user: data});
+
     	if(response.statusCode==200)
     	{
     		if(body.code==101)
 	    	{
           user=[];
-          user.push(req.session.user);
+          user.push(body.user);
 		    	req.session.user = user;
 		    	req.session.authStatus = 'loggedIn';
 		    	req.session.message='User signed up successfully';
@@ -123,7 +126,7 @@ router.get('/home', function(req, res, next) {
         // res.json({ code: response, success: true, message:"User logged in successfully", users: body});
         if(response.statusCode==200)
         {
-          res.json({ code: response, success: true, message:"User logged in successfully", json.parse(users: body.users) });
+          res.json({ code: response, success: true, message:"User logged in successfully", users: body.users });
 
           // res.render('home', { title: 'Home', users: body.users });
 
@@ -188,7 +191,7 @@ router.post('/callUpdateProfileApi', function(req, res){
 	    	{
 		    	req.session.user = body.user;
 		    	req.session.message='Profile updated successfully';
-		    	res.redirect('/updateProfile');
+		    	res.redirect('/profile');
 	    	}
     		else if(body.code==420)
 	    	{
@@ -208,6 +211,67 @@ router.post('/callUpdateProfileApi', function(req, res){
     }
   });
 });
+
+router.get('/updatePassword', function(req, res, next) {
+  if(req.session.authStatus != 'loggedIn'){
+    req.session.message = 'You need to login first';
+    res.redirect('/login');
+  }
+    // user=[];
+    // user.push(req.session.user);
+    res.render('update-password', { user: req.session.user, message: req.session.message });
+});
+
+
+router.post('/callChangePasswordApi', function(req, res){
+  data=req.body;
+  oldpass=data.oldpassword;
+  newpass=data.newpassword;
+  // res.json({ oldpass: oldpass, newpass: newpass, val:oldpass!=newpass});
+
+  if(oldpass!=newpass){
+    req.session.message='Passwords dont match.';
+    res.redirect('/updatePassword');
+    // res.json({ oldpass: oldpass, newpass: newpass, val:oldpass!=newpass});
+  }
+  // res.json({ oldpass: oldpass, newpass: newpass, val:oldpass!=newpass, user: data.userId});
+
+  request.post({url:'http://localhost:3000/users/updatepassword', json: data }, (err, response, body) => {
+    if (err) { 
+      req.session.message='Something went wrong, please try again';
+      res.redirect('/updatePassword');
+    }
+    else{
+      // res.json({ code: response, success: true, message:"User logged in successfully", user: body.user});
+      if(response.statusCode==200)
+      {
+        if(body.code==101)
+        {
+          req.session.message='Password updated successfully';
+          res.redirect('/profile');
+        }
+        else if(body.code==420)
+        {
+          req.session.message='Wrong credentials. Try again';
+          res.redirect('/updatePassword');
+        }
+        else if(body.code==404)
+        {
+          req.session.message='Something went wrong, please try again';
+          res.redirect('/updatePassword');
+        }
+      }
+      else{
+        req.session.message='Something went wrong, please try again';
+        res.redirect('/updatePassword');
+      }
+    }
+  });
+});
+
+
+
+
 
 
 module.exports = router;
